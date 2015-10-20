@@ -20,4 +20,8 @@ public class Ciphertext {
         }
         this.characters = list;
     }
+
+    public int getLength() {
+        return characters.size();
+    }
 }
