@@ -2,6 +2,7 @@ package com.marian;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Main {
 
@@ -9,6 +10,8 @@ public class Main {
     private static Ciphertext ciphertextToDecode;
     private static int maxCiphertextLength;
     private static DecryptedMessage message;
+    private static char[] validCharacters = {32, 33, 34, 44, 46, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122};
+    private static char[] charactersToSearch = {32, 33, 44, 46, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 82, 83, 84, 85, 87, 89, 90, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 114, 115, 116, 117, 119, 121, 122};
 
     public static void main(String[] args) {
 
@@ -22,13 +25,7 @@ public class Main {
 
         message = new DecryptedMessage(ciphertextToDecode.getLength());
 
-        filterCharacters((char) 32, 33);
-        filterCharacters((char) 40, 41);
-        filterCharacters((char) 44, 44);
-        filterCharacters((char) 46, 46);
-        filterCharacters((char) 48, 59);
-        filterCharacters((char) 65, 90);
-        filterCharacters((char) 97, 122);
+        filterCharacters();
 
         for (int i = 0; i < message.getLength(); i++) {
             message.printLettersAtIndex(i);
@@ -37,8 +34,9 @@ public class Main {
 
     }
 
-    private static void filterCharacters(char from, int to) {
-        for (char currentCharacter = from; currentCharacter <= to; currentCharacter++) {
+    private static void filterCharacters() {
+        for (int index = 0; index < charactersToSearch.length; index++) {
+            char currentCharacter = charactersToSearch[index];
             for (int i = 0; i < ciphertextToDecode.getLength(); i++) {
                 boolean validCharacters = true;
                 int j;
@@ -57,8 +55,6 @@ public class Main {
                 if (validCharacters && j > 0) {
                     message.addValidCharacterAtIndex(currentCharacter, i);
                 }
-                System.out.println();
-
             }
         }
     }
@@ -82,21 +78,6 @@ public class Main {
     }
 
     private static boolean isValidCharacter(char character) {
-        if (character >= 32 && character <= 33)
-            return true;
-        if (character >= 40 && character <= 41)
-            return true;
-        if (character == 44)
-            return true;
-        if (character == 46)
-            return true;
-        if (character >= 48 && character <= 59)
-            return true;
-        if (character >= 65 && character <= 90)
-            return true;
-        if (character >= 97 && character <= 122)
-            return true;
-
-        return false;
+        return Arrays.binarySearch(validCharacters, character) >= 0;
     }
 }
