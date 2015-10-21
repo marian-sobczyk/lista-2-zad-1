@@ -14,7 +14,7 @@ public class Ciphertext {
         for (int i = 0; i < numbers.length; i++) {
             String number = numbers[i];
             if (number.length() >= 8) {
-                char character = (char) Integer.parseInt(number);
+                char character = (char) Integer.parseInt(number, 2);
                 list.add(character);
             }
         }
@@ -23,5 +23,13 @@ public class Ciphertext {
 
     public int getLength() {
         return characters.size();
+    }
+
+    public char getCharacterAtIndex(int i) throws RequestedCharacterNotExistExteption {
+        if (i < characters.size()) {
+            return characters.get(i);
+        }
+
+        throw new RequestedCharacterNotExistExteption();
     }
 }

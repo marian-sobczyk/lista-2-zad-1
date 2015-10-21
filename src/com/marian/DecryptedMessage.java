@@ -15,4 +15,20 @@ public class DecryptedMessage {
             decryptedLetters.add(letter);
         }
     }
+
+    public void addValidCharacterAtIndex(char currentCharacter, int i) {
+        if (i < decryptedLetters.size()) {
+            DecryptedLetter decryptedLetter = decryptedLetters.get(i);
+            decryptedLetter.addCharacter(currentCharacter);
+        }
+    }
+
+    public int getLength() {
+        return decryptedLetters.size();
+    }
+
+    public void printLettersAtIndex(int i) {
+        DecryptedLetter decryptedLetter = decryptedLetters.get(i);
+        decryptedLetter.printPossibleCharacters();
+    }
 }
